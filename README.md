@@ -2,8 +2,13 @@
 
 Retain lets you record expenses, search and filter them, set a monthly budget and see where your money goes. Admins can manage expense categories and view platform-wide insights.
 
+### Live app: https://retain-app-one.vercel.app
+### API base URL: https://retain-app-xgk4.onrender.com/api
+### API health check: https://retain-app-xgk4.onrender.com/api/health
 
-**Demo admin login (seeded on first server start):** the `ADMIN_EMAIL` / `ADMIN_PASSWORD` you set in the server environment.
+The API runs on Render's free plan and sleeps after about 15 minutes of inactivity. The first request after a pause can take 30 to 60 seconds, so please allow a moment on first load.
+
+**Demo admin login:** email: `admin@retain.app` , password: `Admin123!` 
 
 ## Technologies
 
@@ -38,7 +43,7 @@ Retain lets you record expenses, search and filter them, set a monthly budget an
 ## Project structure
 
 ```
-retain/
+retain-app/
 ├── client/            React + TypeScript + Vite app
 │   └── src/
 │       ├── components/  Reusable UI (forms, filters, gauge, modal, guards)
@@ -79,7 +84,7 @@ npm run dev                 # http://localhost:5173
 
 | Variable | Purpose |
 | --- | --- |
-| `PORT` | API port (default 5000) |
+| `PORT` |  is set automatically by Render and doesn’t need to be defined in production |
 | `MONGODB_URI` | MongoDB connection string |
 | `JWT_SECRET` | Long random string used to sign tokens |
 | `CLIENT_ORIGIN` | Allowed frontend origin(s), comma-separated |
@@ -123,10 +128,17 @@ Payment methods: `cash`, `card`, `mobile_money`, `bank_transfer`, `other`.
 
 ## Deployment
 
-1. **Database:** create a free MongoDB Atlas cluster, add a database user, allow network access, copy the connection string.
-2. **API (Render, Railway or similar):** root directory `server`, build command `npm install`, start command `npm start`. Set the server environment variables above, with `CLIENT_ORIGIN` set to your frontend URL.
-3. **Frontend (Vercel or Netlify):** root directory `client`, build command `npm run build`, output directory `dist`. Set `VITE_API_URL` to `https://<your-api-host>/api`. `vercel.json` and `public/_redirects` handle client-side routing.
-4. Put both URLs at the top of this README.
+| Part | Host | Notes |
+| --- | --- | --- |
+| Database | MongoDB Atlas (free M0 cluster) | Database `retain_prod`; network access allows Render |
+| API | Render (Web Service, free) | Root directory `server`, build `npm install`, start `npm start` |
+| Frontend | Vercel | Root directory `client`, build `npm run build`, output `dist` |
+
+**API environment variables (Render):** `MONGODB_URI`, `JWT_SECRET`, `CLIENT_ORIGIN` (the Vercel URL, no trailing slash), `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
+
+**Frontend environment variables (Vercel):** `VITE_API_URL` (the Render URL plus `/api`), `VITE_CURRENCY`.
+
+`client/vercel.json` rewrites all routes to `index.html` so deep links and page refreshes work.
 
 ## Error handling
 
