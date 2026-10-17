@@ -3,7 +3,6 @@
 Retain lets you record expenses, search and filter them, set a monthly budget and see where your money goes. Admins can manage expense categories and view platform-wide insights.
 
 ### Live app: https://retain-app-one.vercel.app
-### API base URL: https://retain-app-xgk4.onrender.com/api
 ### API health check: https://retain-app-xgk4.onrender.com/api/health
 
 The API runs on Render's free plan and sleeps after about 15 minutes of inactivity. The first request after a pause can take 30 to 60 seconds, so please allow a moment on first load.
@@ -95,7 +94,7 @@ npm run dev                 # http://localhost:5173
 | Variable | Purpose |
 | --- | --- |
 | `VITE_API_URL` | API base URL including `/api` |
-| `VITE_CURRENCY` | ISO currency code for display, e.g. `USD`, `RWF` |
+| `VITE_CURRENCY` | ISO currency code for display,  `USD` |
 
 On first start the API creates the **Uncategorized** default category, a set of starter categories and the admin account.
 
